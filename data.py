@@ -56,10 +56,12 @@ class CadData(object):
     def change_color(self, active_file, color):
         self.data[active_file][0] = color
 
-    def paint(self, MAP_X, MAP_Y, keyes1, snapp, new, active_file): #Get values from gui.
+    def paint(self, ide, MAP_X, MAP_Y, MAP_Z,code, keyes1, snapp, new, active_file): #Get values from gui.
+
 
         x = MAP_X
         y = MAP_Y
+        z = MAP_Z
 
         
 
@@ -94,15 +96,15 @@ class CadData(object):
         if len(keyes1) == 1:
             
             if len(self.data[active_file][3][5]) > 0:
-                if keyes1[0] != "ll" and self.data[active_file][3][5][len(self.data[active_file][3][5])-1] == "ll":
-                    self.data[active_file][3][5][len(self.data[active_file][3][5])-1] = "pp"
+                if keyes1[0] != "dl" and self.data[active_file][3][5][len(self.data[active_file][3][5])-1] == "dl":
+                    self.data[active_file][3][5][len(self.data[active_file][3][5])-1] = "dp"
                     print("did")
 
             
             # Point
-            if keyes1[0] == "pp":
+            if keyes1[0] == "dp":
                 del self.arc[:]
-                self.data[active_file][3][0].append("id")
+                self.data[active_file][3][0].append(ide)
 
                 if snapp[0] == "sp":
                     self.data[active_file][3][1].append(self.snapp_xy[0])
@@ -111,17 +113,17 @@ class CadData(object):
                 else:    
                     self.data[active_file][3][1].append(x)
                     self.data[active_file][3][2].append(y)
-                    self.data[active_file][3][3].append(0)
+                    self.data[active_file][3][3].append(z)
                 
                 
-                self.data[active_file][3][4].append("kod")
-                self.data[active_file][3][5].append("pp")
+                self.data[active_file][3][4].append(code)
+                self.data[active_file][3][5].append("dp")
 
                 
             # Line
-            elif keyes1[0] == "ll":
+            elif keyes1[0] == "dl":
                 del self.arc[:]
-                self.data[active_file][3][0].append("id")
+                self.data[active_file][3][0].append(ide)
 
                 if snapp[0] == "sp":
                     self.data[active_file][3][1].append(self.snapp_xy[0])
@@ -130,25 +132,25 @@ class CadData(object):
                 else:    
                     self.data[active_file][3][1].append(x)
                     self.data[active_file][3][2].append(y)
-                    self.data[active_file][3][3].append(0)
+                    self.data[active_file][3][3].append(z)
 
                 
-                self.data[active_file][3][4].append("kod")
+                self.data[active_file][3][4].append(code)
                 
                 index = len(self.data[active_file][3][5]) - 1
                 
                 
                 if index >= 0:
-                    if self.data[active_file][3][5][index] == "ll" or self.data[active_file][3][5][index] == "/ll" and new[0] == 0:
-                        self.data[active_file][3][5].append("/ll")
-                        self.data[active_file][3][5][index] = "ll"
+                    if self.data[active_file][3][5][index] == "dl" or self.data[active_file][3][5][index] == "/dl" and new[0] == 0:
+                        self.data[active_file][3][5].append("/dl")
+                        self.data[active_file][3][5][index] = "dl"
                     else:
-                        self.data[active_file][3][5].append("ll")
+                        self.data[active_file][3][5].append("dl")
                 else:
-                    self.data[active_file][3][5].append("ll")
+                    self.data[active_file][3][5].append("dl")
 
             # Arc
-            elif keyes1[0] == "la":   
+            elif keyes1[0] == "a3":   
                 if len(self.arc) <= 9:
                         
                         if snapp[0] == "sp":
@@ -158,7 +160,7 @@ class CadData(object):
                         else:    
                             self.arc.append(x)
                             self.arc.append(y)
-                            self.arc.append(0)
+                            self.arc.append(z)
                             
                         if len(self.arc) == 6 and self.arc[0] == self.arc[3] and self.arc[1] == self.arc[4]:
                             #print("no")
@@ -194,16 +196,16 @@ class CadData(object):
                         i = 0    
                             
                         while i != 9:                 
-                            self.data[active_file][3][0].append("arc")                
+                            self.data[active_file][3][0].append(ide)                
                             self.data[active_file][3][1].append(self.arc[0 + i])
                             self.data[active_file][3][2].append(self.arc[1 + i])
                             self.data[active_file][3][3].append(self.arc[2 + i])                
-                            self.data[active_file][3][4].append("kod")
+                            self.data[active_file][3][4].append(code)
 
                             if i == 6:
-                                self.data[active_file][3][5].append("/la")
+                                self.data[active_file][3][5].append("/a3")
                             else:
-                                self.data[active_file][3][5].append("la") 
+                                self.data[active_file][3][5].append("a3") 
 
                             i = i + 3
                         del self.arc[:]
